@@ -267,6 +267,7 @@ set backspace=indent,eol,start
 
 "インサートモードのEscをjjにキーバインド
 inoremap <silent> jj <ESC>
+inoremap <silent> っｊ <ESC>
 inoremap <silent> っj <ESC>
 
 "入力モードでのカーソル移動
@@ -359,6 +360,8 @@ nmap gj gj<SID>g
 nmap gk gk<SID>g
 nnoremap <script> <SID>gj gj<SID>g
 nnoremap <script> <SID>gk gk<SID>g
+nnoremap <script> <SID>gl l<SID>g
+nnoremap <script> <SID>gh h<SID>g
 nmap <SID>g <Nop>
 
 " :T でターミナルをいい感じに開く
@@ -371,7 +374,7 @@ let &t_TE = ""
 " 対となる括弧への移動（％）を強化
 packadd! matchit
 
-" バッファ関連のキーマッピング
+" バッファ間の移動をより簡単に
 nnoremap <silent> <C-j> :bnext<CR>
 nnoremap <silent> <C-k> :bprev<CR>
 
