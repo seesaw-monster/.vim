@@ -1,52 +1,45 @@
-"プラグイン管理 ####################################################
-"bundleで管理するディレクトリを指定
-set runtimepath+=~/.vim/bundle/neobundle.vim/
+"プラグイン管理(dein.vim) ####################################################
+if &compatible
+  set nocompatible
+endif
 
-"Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
+" dein.vimインストール時に指定したディレクトリをセット
+let s:dein_dir = expand('~/.cache/dein')
 
-"neobundle自体をneobundleで管理
-NeoBundleFetch 'Shougo/neobundle.vim'
+" dein.vimの実体があるディレクトリをセット
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-"追加のプラグイン
-"jedi-vim
-"（追記）動作が遅すぎたので，一旦使用停止．メモリの問題の可能性も？
-" NeoBundle 'davidhalter/jedi-vim'
-"タブで補完
-" NeoBundle 'ervandew/supertab'
-"インデントの可視化
-NeoBundle 'Yggdroot/indentLine'
-"コメント化
-NeoBundle 'tpope/vim-commentary'
-" ディレクトリのツリー表示
-" NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'lambdalisue/fern.vim'
-" ツリー上にgitとの差分を表示
-NeoBundle 'lambdalisue/fern-git-status.vim'
-" ステータスバーの表示
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-" vim-airline用カラースキーム
-NeoBundle 'tomasiser/vim-code-dark'
-" Treeにアイコンを表示
-NeoBundle 'lambdalisue/nerdfont.vim'
-NeoBundle 'lambdalisue/fern-renderer-nerdfont.vim'
-"Treeのアイコンを色付け
-NeoBundle 'lambdalisue/glyph-palette.vim'
-" vi . でファイラーを起動
-NeoBundle 'lambdalisue/fern-hijack.vim'
-" ステータスラインのアイコン
-NeoBundle 'ryanoasis/vim-devicons'
-" 選択中のテキストを括弧などでくくる
-NeoBundle 'tpope/vim-surround'
+" dein.vimが存在していない場合はgithubからclone
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
 
-call neobundle#end()
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-"未インストールのプラグインをインストールするか尋ねる
-NeoBundleCheck
+  " dein.toml, dein_layz.tomlファイルのディレクトリをセット
+  let s:toml_dir = expand('~/.config/nvim')
 
-"ファイルタイプ別のプラグイン/インデントを有効化
+  " 起動時に読み込むプラグイン群
+  call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
+
+  " 遅延読み込みしたいプラグイン群
+  call dein#load_toml(s:toml_dir . '/dein_lazy.toml', {'lazy': 1})
+
+  call dein#end()
+  call dein#save_state()
+endif
+
 filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
 
 "日本語の有効化 ####################################################
 set encoding=utf-8
