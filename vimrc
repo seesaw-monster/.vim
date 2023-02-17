@@ -376,3 +376,8 @@ nnoremap <silent> <C-k> :bprev<CR>
 " ビジュアルモード中に続けてインクリメント
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
+
+" vim-sandwichのための設定
+"     s を利用したい場合は cl を使う
+nmap s <Nop>
+xmap s <Nop>
