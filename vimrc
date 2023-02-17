@@ -56,6 +56,8 @@ set showmatch
 " set matchtime=1 なぜか対応する括弧の表示が遅れることがあったのでコメントアウト
 "コードの色分け
 syntax on
+" 相対的な行番号の表示
+set relativenumber
 
 "ファイル管理
 "バックアップファイルやスワップファイルを作成しない
